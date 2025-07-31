@@ -1,0 +1,8 @@
+streamlit
+openai
+python-dotenv
+sqlalchemy
+pandas
+altair
+google-search-results
+
