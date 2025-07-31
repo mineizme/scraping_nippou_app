@@ -1,15 +1,16 @@
 import streamlit as st
 import os
+import sqlite3
 from dotenv import load_dotenv
-from openai import OpenAI
 from datetime import datetime, timedelta
-from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, ForeignKey, Boolean
-from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 import pandas as pd
 import altair as alt
+
+from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, ForeignKey, Boolean
+from sqlalchemy.orm import sessionmaker, declarative_base, relationship
+
 from serpapi import GoogleSearch
-import sqlite3  # ← 追加：カラム追加用
-from serpapi import GoogleSearch
+from openai import OpenAI
 
 
 # --- DBファイル名 ---
@@ -69,10 +70,8 @@ def ensure_analysis_column():
             conn.commit()
 
 # --- 環境変数読み込み ---
-load_dotenv("mine.env")
-SERPAPI_API_KEY = "d849feab8005780b037956c5b80c9fbee2da30597c51302c0e9d930021945ba0"
-api_key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=api_key)
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+SERPAPI_API_KEY = st.secrets["SERPAPI_API_KEY"]
 
 # --- DBファイル名 ---
 DB_FILE = "project_reports.db"
